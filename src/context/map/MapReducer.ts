@@ -1,4 +1,4 @@
-import { MapContextProps } from './MapContext';
+import { MapStateProps } from './MapProvider';
 import { Map } from 'mapbox-gl';
 
 export interface MapAction {
@@ -6,7 +6,7 @@ export interface MapAction {
   payload: Map;
 }
 
-export const MapReducer = (state: MapContextProps, action: MapAction ): MapContextProps => {
+export const MapReducer = (state: MapStateProps, action: MapAction): MapStateProps => {
   switch (action.type) {
     case 'setMap':
       return {

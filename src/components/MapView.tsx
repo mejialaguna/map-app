@@ -1,14 +1,17 @@
-import { memo, useCallback, useLayoutEffect, useRef } from 'react';
+import { memo, useCallback, useContext, useLayoutEffect, useRef } from 'react';
 import { PlacesState } from '../context/places/PlacesProvider';
 import { Map } from 'mapbox-gl';
+import { MapContext } from '../context/map/MapContext';
+
 
 export const MapView = memo(
   ({ isLoading, userLocation }: PlacesState): JSX.Element => {
+    const { setMap } = useContext(MapContext);
     const mapRef = useRef<HTMLDivElement>(null);
 
     const initializeMap = useCallback(() => {
       if (mapRef.current && !isLoading) {
-        new Map({
+       const map = new Map({
           // * container ID
           container: mapRef.current!,
           // * style URL
@@ -17,7 +20,10 @@ export const MapView = memo(
           center: userLocation ? userLocation : [1000, 20],
           // * starting zoom
           zoom: userLocation ? 9 : 2,
-        });
+       });
+
+        // * Ensure we possess the user's location before initializing the map and executing subsequent processes, such as adding markers, etc.
+        if (userLocation) setMap(map);
       }
     }, [mapRef.current, isLoading, userLocation]);
 
