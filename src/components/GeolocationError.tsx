@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 
 interface GeolocationErrorProps {
   errorMessage: string;
@@ -16,7 +16,7 @@ export const GeolocationError = memo(
 
     useEffect(() => {
       if (errorMessage) setModalOpen(true);
-    }, [errorMessage]);
+    }, [errorMessage, setModalOpen]);
 
     const closeModal = () => {
       setModalOpen(false);

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { PlacesContext } from '../context/places/PlacesContext';
-import { MapView } from '../components/MapView';
 import { GeolocationError } from '../components/GeolocationError';
+import { MapLayout } from '../components/MapLayout';
 
 export const Home = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -16,7 +16,7 @@ export const Home = () => {
           setModalOpen={setModalOpen}
         />
       )}
-      <MapView isLoading={isLoading} userLocation={userLocation} />
+      <MapLayout isLoading={isLoading} userLocation={userLocation} />
     </>
   );
 };

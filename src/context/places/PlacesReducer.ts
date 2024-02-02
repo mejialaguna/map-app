@@ -4,9 +4,9 @@ export interface PlacesAction {
   type: 'setUserLocation';
   payload: {
     userLocation?: [number, number];
-    errorMessage?: string
+    errorMessage?: string;
   };
-};
+}
 
 export const PlacesReducer = (
   state: PlacesState,

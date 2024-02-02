@@ -4,9 +4,11 @@ import { Map } from "mapbox-gl";
 export interface MapContextProps {
   isMapReady: boolean;
   map?: Map;
+  zoomLevel: number;
 
   // ? Methods
   setMap: (map: Map) => void;
+  setMapZoom: (zoom: number) => void;
 }
 
 
