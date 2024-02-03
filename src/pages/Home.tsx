@@ -9,14 +9,15 @@ export const Home = () => {
 
   return (
     <>
-      {!userLocation && errorMessage && (
+      {!userLocation && errorMessage ? (
         <GeolocationError
           errorMessage={errorMessage}
           isModalOpen={isModalOpen}
           setModalOpen={setModalOpen}
         />
+      ) : (
+        <MapLayout isLoading={isLoading} userLocation={userLocation} />
       )}
-      <MapLayout isLoading={isLoading} userLocation={userLocation} />
     </>
   );
 };

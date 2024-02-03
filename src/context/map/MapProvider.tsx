@@ -2,7 +2,8 @@ import { useReducer } from 'react';
 import { MapContext } from './MapContext';
 import { MapReducer } from './MapReducer';
 import { Map, Marker, Popup } from 'mapbox-gl';
-import { onDragEnd } from '../../helpers/markerOnDrag';
+import { onDragEnd } from '../../helpers/onDragEnd';
+// import { onDragEnd } from '../../helpers/markerOnDrag';
 
 export interface MapProviderProps {
   children: JSX.Element | JSX.Element[];
@@ -32,9 +33,7 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
 
   const setMap = (map: Map) => {
     const latLong = map.getCenter();
-    const popup = new Popup({ closeButton: false })
-      .setLngLat(latLong)
-      .setHTML(`
+    const popup = new Popup({ closeButton: false }).setLngLat(latLong).setHTML(`
           <div class='flex flex-col text-center'>
           <h1> you are here!</h1>
           <p>${latLong}</p>
@@ -53,7 +52,6 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
       payload: map,
     });
   };
-  
 
   return (
     <MapContext.Provider
