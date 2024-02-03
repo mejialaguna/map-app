@@ -18,9 +18,9 @@ export const GeolocationError = memo(
       if (errorMessage) setModalOpen(true);
     }, [errorMessage, setModalOpen]);
 
-    const closeModal = () => {
+    const closeModal = useCallback(() => {
       setModalOpen(false);
-    };
+    }, [setModalOpen],); 
 
     const handleClickOutside = useCallback(
       (event: MouseEvent) => {
@@ -31,7 +31,7 @@ export const GeolocationError = memo(
           closeModal();
         }
       },
-      [modalContainer.current, closeModal]
+      [modalContainer, closeModal]
     );
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export const GeolocationError = memo(
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [modalContainer.current, handleClickOutside]);
+    }, [modalContainer, handleClickOutside]);
 
     return (
       <div className='flex-col items-center justify-center h-screen'>

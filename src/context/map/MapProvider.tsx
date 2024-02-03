@@ -12,24 +12,15 @@ export interface MapProviderProps {
 export interface MapStateProps {
   isMapReady: boolean;
   map?: Map;
-  zoomLevel: number;
 }
 
 const INITIAL_STATE: MapStateProps = {
   isMapReady: false,
   map: undefined,
-  zoomLevel: 8,
 };
 
 export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
   const [state, dispatch] = useReducer(MapReducer, INITIAL_STATE);
-
-  const setMapZoom = (zoom: number) => {
-    dispatch({
-      type: 'increaseZoomLevel',
-      payload: zoom,
-    });
-  };
 
   const setMap = (map: Map) => {
     const latLong = map.getCenter();
@@ -60,7 +51,6 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
 
         // ? Methods
         setMap,
-        setMapZoom,
       }}
     >
       {children}

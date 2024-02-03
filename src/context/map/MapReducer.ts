@@ -3,13 +3,9 @@ import { Map } from 'mapbox-gl';
 
 export type MapAction =
   | {
-      type: 'setMap';
-      payload: Map;
-    }
-  | {
-      type: 'increaseZoomLevel';
-      payload: number;
-    };
+    type: 'setMap';
+    payload: Map;
+  };
 
 export const MapReducer = (
   state: MapStateProps,
@@ -22,11 +18,6 @@ export const MapReducer = (
         isMapReady: true,
         map: action.payload,
       };
-    case 'increaseZoomLevel':
-      return {
-        ...state,
-        zoomLevel: action.payload
-      }
 
     default:
       return state;

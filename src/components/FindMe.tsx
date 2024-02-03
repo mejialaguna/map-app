@@ -14,7 +14,7 @@ export const FindMe = memo(() => {
         zoom: 15,
       });
     }
-  }, [userLocation && map]);
+  }, [userLocation, map]);
 
   return (
     <button onClick={onclick} className='absolute block bottom-10 right-2.5'>
