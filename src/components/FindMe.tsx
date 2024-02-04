@@ -4,7 +4,7 @@ import { MapContext } from '../context/map/MapContext';
 
 export const FindMe = memo(() => {
   const { userLocation } = useContext(PlacesContext);
-  const { map } = useContext(MapContext);
+  const { map, isMapReady } = useContext(MapContext);
 
   const onclick = useCallback(() => {
     if (userLocation && map?.flyTo) {
@@ -17,6 +17,7 @@ export const FindMe = memo(() => {
   }, [userLocation, map]);
 
   return (
+    isMapReady &&
     <button onClick={onclick} className='absolute block bottom-10 right-2.5'>
       <img
         width='48'
