@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 
 interface GeolocationErrorProps {
   errorMessage: string;
@@ -12,7 +12,6 @@ export const GeolocationError = memo(
     isModalOpen,
     setModalOpen,
   }: GeolocationErrorProps): JSX.Element => {
-    const modalContainer = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       if (errorMessage) setModalOpen(true);
@@ -22,34 +21,12 @@ export const GeolocationError = memo(
       setModalOpen(false);
     }, [setModalOpen],); 
 
-    const handleClickOutside = useCallback(
-      (event: MouseEvent) => {
-        if (
-          modalContainer.current &&
-          !modalContainer.current.contains(event?.target as Node)
-        ) {
-          closeModal();
-        }
-      },
-      [modalContainer, closeModal]
-    );
-
-    useEffect(() => {
-      if (modalContainer.current) {
-        document.addEventListener('mousedown', handleClickOutside);
-      }
-
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, [modalContainer, handleClickOutside]);
-
     return (
       <div className='flex-col items-center justify-center h-screen'>
         {isModalOpen && (
           <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 text-center'>
             <div className='bg-white pt-3 pb-6 px-6 rounded shadow-md'>
-              <div ref={modalContainer} className='flex justify-end'>
+              <div className='flex justify-end'>
                 <span onClick={closeModal} className=' cursor-pointer'>
                   &times;
                 </span>

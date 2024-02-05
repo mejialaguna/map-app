@@ -9,12 +9,16 @@ export interface PlacesState {
   isLoading: boolean;
   userLocation?: [number, number];
   errorMessage?: string | null;
+  isLoadingPlaces: boolean;
+  places: Feature[];
 }
 
 const INITIAL_STATE: PlacesState = {
   isLoading: true,
   userLocation: undefined,
   errorMessage: null,
+  isLoadingPlaces: false,
+  places: [], 
 };
 
 interface Props {
@@ -41,11 +45,18 @@ export const PlacesProvider = ({ children }: Props) => {
   const searchPlaces = useCallback(
     async (query: string): Promise<Feature[] | []> => {
       try {
-        if (query.length === 0) return [];
+        if (query.length === 0) {
+            dispatch({ type: 'setPlaces', payload: [] });
+            return [];
+        }
 
         if (!state.userLocation) {
           throw new Error('No user location');
         }
+
+        dispatch({
+          type: 'setLoadingPlaces',
+        })
 
         const response = await searchApi.get<PlacesResponse>(`/${query}.json`, {
           params: {
@@ -55,6 +66,10 @@ export const PlacesProvider = ({ children }: Props) => {
 
         // Checking for successful response status
         if (response.status === 200) {
+          dispatch({
+            type: 'setPlaces',
+            payload: response.data.features 
+          })
           return response.data.features;
         } else {
           console.error(`Unexpected status code: ${response.status}`);

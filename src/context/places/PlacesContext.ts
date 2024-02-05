@@ -5,8 +5,10 @@ export interface PlacesContextProps {
   isLoading: boolean;
   userLocation?: [number, number];
   errorMessage?: string | null;
+  isLoadingPlaces: boolean;
+  places: Feature[];
 
-
+  // ? methods
   searchPlaces: (query: string) => Promise<Feature[]>;
 }
 

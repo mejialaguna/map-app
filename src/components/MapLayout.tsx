@@ -10,7 +10,7 @@ export const MapLayout = memo(({ isLoading, userLocation }: PlacesState) => {
   return (
     <>
       <MapView isLoading={isLoading} userLocation={userLocation} />
-      <SearchBar />
+      {userLocation ? <SearchBar /> : null}
       <Coordenaces />
       <FindMe />
       <Dropdown />
