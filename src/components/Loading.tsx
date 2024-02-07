@@ -1,7 +1,6 @@
 import { memo } from 'react'
 
 export const Loading = memo(() => {
-  console.log('Loading')
    return (
         <div className='inline-flex justify-center h-52 items-center px-4 py-2 transition ease-in-out duration-150 cursor-not-allowed'>
           <svg
@@ -16,7 +15,7 @@ export const Loading = memo(() => {
               cy='12'
               r='10'
               stroke='currentColor'
-              stroke-width='4'
+              strokeWidth='4'
             ></circle>
             <path
               className='opacity-75'
