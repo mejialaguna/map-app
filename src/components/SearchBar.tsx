@@ -13,12 +13,12 @@ export const SearchBar = () => {
   };
 
   return (
-    <div className={`fixed top-5 left-5 text-black rounded-md px-2 py-2 bg-white`}>
+    <div className={`flex flex-col fixed top-5 left-5 text-black rounded-md px-2 py-2 bg-white`}>
       <input
         onChange={onChange}
         className={`bg-transparent-white p-1.5 rounded-md border-solid border-2 border-stone-300 shadow-2xl w-full`}
         type='text'
-        placeholder='Search'
+        placeholder='Search...'
         title='places near you'
       />
       <SearchResult />

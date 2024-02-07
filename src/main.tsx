@@ -7,6 +7,7 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken = getEnvironmentVar('VITE_MAPBOX_ACCESS_TOKEN');
 
 import './index.css';
+import 'animate.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

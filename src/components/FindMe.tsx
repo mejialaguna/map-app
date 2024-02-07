@@ -18,7 +18,7 @@ export const FindMe = memo(() => {
 
   return (
     isMapReady &&
-    <button onClick={onclick} className='absolute block bottom-10 right-2.5'>
+    <button onClick={onclick} className='absolute block bottom-20 md:bottom-10 right-2.5'>
       <img
         width='48'
         height='48'

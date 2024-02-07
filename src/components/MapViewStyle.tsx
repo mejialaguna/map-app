@@ -11,6 +11,7 @@ const dropdownOptions = [
 
 export const Dropdown = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [isSelected, setIsSelected] = useState('light');
   const { map, isMapReady } = useContext(MapContext);
 
@@ -18,11 +19,23 @@ export const Dropdown = memo(() => {
     setIsOpen(!isOpen);
   }, [setIsOpen, isOpen]);
 
+  const closeSettings = useCallback(() => {
+    if (isSettingOpen) {
+      setIsSettingOpen(false);
+    }
+    if (!isSettingOpen) {
+      setIsSettingOpen(true);
+    }
+    if (isSettingOpen && isOpen) {
+      setIsSettingOpen(false);
+      setIsOpen(false);
+    }
+  }, [isSettingOpen, isOpen]);
+
   const handleOptionClick = useCallback(
     (option: string, value: string) => {
-      // You can perform any action when an option is clicked
-      // Close the dropdown after selecting an option
       setIsOpen(false);
+      setIsSettingOpen(false);
       setIsSelected(option);
 
       if (isMapReady && map) {
@@ -33,24 +46,50 @@ export const Dropdown = memo(() => {
   );
 
   return (
-    isMapReady &&
-    <div className='absolute flex flex-col cursor-pointer bg-transparent-black text-slate-50 top-9 right-16 rounded-lg w-[165px] py-1'>
-        <button onClick={handleToggle}>{isSelected.toUpperCase()} VIEW
+    isMapReady && (
+      <div className='absolute cursor-pointer text-slate-50 block bottom-32 right-3.5 rounded-lg py-1 md:bottom-24'>
+        {isOpen && (
+          <ul
+            className={`text-center absolute bottom-20 right-[35px] bg-slate-50 text-gray-950 p-3 rounded-md `}
+          >
+            {dropdownOptions.map(({ name, value }, i) => {
+              if (isSelected !== name) {
+                return (
+                  <li
+                    className={`hover:border-b border-blue-500 items-center my-[2px] p-[2px] animate__animated ${
+                      isOpen ? 'animate__fadeInDown' : ''
+                    }`}
+                    key={i}
+                    onClick={() => handleOptionClick(name, value)}
+                  >
+                    {isSelected !== name && name.toUpperCase()}
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        )}
+
+        <button onClick={closeSettings}>
+          <img
+            width='40'
+            height='40'
+            src='https://img.icons8.com/flat-round/64/settings--v1.png'
+            alt='settings--v1'
+          />
         </button>
 
-      {isOpen && (
-        <ul className={`w-[100%] text-center  ${!isOpen ? 'opacity-0': 'transition-opacity duration-500 ease-in-out' }`}>
-          {dropdownOptions.map(({ name, value }, i) => (
-            <li
-              className='hover:bg-slate-700 hover:rounded-lg items-center my-[2px]'
-              key={i}
-              onClick={() => handleOptionClick(name, value)}
-            >
-              {isSelected !== name && name.toUpperCase()}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+        {isSettingOpen && (
+          <button
+            className={`text-gray-950 absolute bottom-4 right-[60px] bg-slate-50 py-1 px-4 rounded-md animate__animated ${
+              !isSettingOpen ? 'animate__fadeOutUp' : 'animate__fadeInDown'
+            }`}
+            onClick={handleToggle}
+          >
+            View
+          </button>
+        )}
+      </div>
+    )
   );
 });
