@@ -1,30 +1,25 @@
-# React + TypeScript + Vite
+# GEO - LOCATION APP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the GPS Tracker App! This project is built with TypeScript, React, Vite, Tailwind CSS, Axios for data fetching, and Mapbox for generating interactive maps. This README will guide you through setting up the project and understanding its structure.
 
-Currently, two official plugins are available:
+# Getting Started
+Prerequisites
+Before you begin, make sure you have the following installed on your machine:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Node.js and npm (Node Package Manager)
+Git
 
-## Expanding the ESLint configuration
+## Installation
+1 - Clone the repository
+- git clone https://github.com/mejialaguna/map-app.git
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2 - Open you Favorite Code Editor.
 
-- Configure the top-level `parserOptions` property like this:
+3 - Run Npm install.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+4 - Npm run dev
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+> [!NOTE]  
+> Make sure you have you own keys from Mapbox to be able to use locally.
+> 
+> [Mapbox](https://www.mapbox.com/) (they have free tears)
