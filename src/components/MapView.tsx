@@ -31,6 +31,7 @@ export const MapView = memo(
 
     useLayoutEffect(() => {
       if (mapRef.current && !isLoading) initializeMap();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mapRef, isLoading]);
 
     if (isLoading) {
