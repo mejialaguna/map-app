@@ -18,7 +18,7 @@ const INITIAL_STATE: PlacesState = {
   userLocation: undefined,
   errorMessage: null,
   isLoadingPlaces: false,
-  places: [], 
+  places: [],
 };
 
 interface Props {
@@ -46,8 +46,8 @@ export const PlacesProvider = ({ children }: Props) => {
     async (query: string): Promise<Feature[] | []> => {
       try {
         if (query.length === 0) {
-            dispatch({ type: 'setPlaces', payload: [] });
-            return [];
+          dispatch({ type: 'setPlaces', payload: [] });
+          return [];
         }
 
         if (!state.userLocation) {
@@ -56,7 +56,7 @@ export const PlacesProvider = ({ children }: Props) => {
 
         dispatch({
           type: 'setLoadingPlaces',
-        })
+        });
 
         const response = await searchApi.get<PlacesResponse>(`/${query}.json`, {
           params: {
@@ -68,8 +68,8 @@ export const PlacesProvider = ({ children }: Props) => {
         if (response.status === 200) {
           dispatch({
             type: 'setPlaces',
-            payload: response.data.features 
-          })
+            payload: response.data.features,
+          });
           return response.data.features;
         } else {
           console.error(`Unexpected status code: ${response.status}`);

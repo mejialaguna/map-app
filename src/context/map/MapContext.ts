@@ -7,6 +7,17 @@ export interface MapContextProps {
 
   // ? Methods
   setMap: (map: Map) => void;
+  getDirections: (
+    start: [number, number],
+    end: [number, number]
+  ) => Promise<
+    | {
+        miles: string;
+        minutes: number;
+        coordinates: number[][];
+      }
+    | undefined
+  >;
 }
 
 

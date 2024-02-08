@@ -36,6 +36,7 @@ export const MapView = memo(
     if (isLoading) {
       return <p>Loading...</p>;
     }
+
     return (
       <div className='h-[100vh] w-[100vw] fixed top-0 left-0' ref={mapRef} />
     );

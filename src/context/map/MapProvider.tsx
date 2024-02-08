@@ -1,9 +1,11 @@
 import { useContext, useEffect, useReducer } from 'react';
 import { MapContext } from './MapContext';
 import { MapReducer } from './MapReducer';
-import { Map, Marker, Popup } from 'mapbox-gl';
+import { AnySourceData, LngLatBounds, Map, Marker, Popup } from 'mapbox-gl';
 import { onDragEnd } from '../../helpers/onDragEnd';
 import { PlacesContext } from '..';
+import directionApi from '../../apis/directionsApi';
+import { DirectionResponse } from '../interfaces/direction';
 
 export interface MapProviderProps {
   children: JSX.Element | JSX.Element[];
@@ -27,7 +29,7 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
 
   useEffect(() => {
     // checking whether theres is a marker.
-    state?.markers?.forEach(marker => marker.remove());
+    state?.markers?.forEach((marker) => marker.remove());
     const newMarkers: Marker[] = [];
 
     places.forEach((place) => {
@@ -41,14 +43,13 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
       `);
 
       const newMarker = new Marker({ color: 'blue' })
-      .setLngLat([long, lat])
-      .setPopup(popup)
-      .addTo(state.map!)
+        .setLngLat([long, lat])
+        .setPopup(popup)
+        .addTo(state.map!);
 
       newMarkers.push(newMarker);
     });
-
-  }, [places]);
+  }, [places, state]);
 
   const setMap = (map: Map) => {
     const latLong = map.getCenter();
@@ -72,6 +73,81 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
     });
   };
 
+  const getDirections = async (
+    start: [number, number],
+    end: [number, number]
+  ) => {
+    try {
+      if (start && end) {
+        const response = await directionApi.get<DirectionResponse>(
+          `/${start};${end}`
+        );
+
+        const {
+          distance,
+          duration,
+          geometry: { coordinates },
+        } = response.data.routes[0];
+        const miles = (distance * 0.000621371).toFixed(2);
+        const minutes = Math.round(duration / 60);
+
+        const bounds = new LngLatBounds(start, end);
+
+        for (const coord of coordinates) {
+          const newCoord: [number, number] = [coord[0], coord[1]];
+          bounds.extend(newCoord);
+          // console.log({ newCoord });
+        }
+
+        state.map?.fitBounds(bounds, { padding: 250 });
+
+        const sourceData: AnySourceData = {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                  type: 'LineString',
+                  coordinates,
+                },
+              },
+            ],
+          },
+        };
+
+        if (
+          state.map?.getLayer('RouteString') &&
+          state.map?.getLayer('RouteString')
+        ) {
+          state.map.removeLayer('RouteString');
+          state.map.removeSource('RouteString');
+        }
+
+        state.map?.addSource('RouteString', sourceData);
+        state.map?.addLayer({
+          id: 'RouteString',
+          type: 'line',
+          source: 'RouteString',
+          layout: {
+            'line-cap': 'round',
+            'line-join': 'round',
+          },
+          paint: {
+            'line-color': 'red',
+            'line-width': 3,
+          },
+        });
+
+        return { miles, minutes, coordinates };
+      }
+    } catch (error: any) {
+      console.error(`Unexpected status code: ${error.message}`);
+    }
+  };
+
   return (
     <MapContext.Provider
       value={{
@@ -79,6 +155,7 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
 
         // ? Methods
         setMap,
+        getDirections,
       }}
     >
       {children}

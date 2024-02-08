@@ -1,12 +1,16 @@
 import { MapView } from './MapView';
 import { Coordenaces } from './Coordenaces';
-import { PlacesState } from '../context/places/PlacesProvider';
 import { FindMe } from './FindMe';
 import { Dropdown } from './MapViewStyle';
 import { memo } from 'react';
 import { SearchBar } from './SearchBar';
 
-export const MapLayout = memo(({ isLoading, userLocation }: PlacesState) => {
+interface MapLayoutProps {
+  isLoading: boolean;
+  userLocation: [number, number] | undefined;
+}
+
+export const MapLayout = memo(({ isLoading, userLocation }: MapLayoutProps) => {
   return (
     <>
       <MapView isLoading={isLoading} userLocation={userLocation} />

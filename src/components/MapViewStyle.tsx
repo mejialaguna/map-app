@@ -50,7 +50,7 @@ export const Dropdown = memo(() => {
       <div className='absolute cursor-pointer text-slate-50 block bottom-32 right-3.5 rounded-lg py-1 md:bottom-24'>
         {isOpen && (
           <ul
-            className={`text-center absolute bottom-20 right-[35px] bg-slate-50 text-gray-950 p-3 rounded-md `}
+            className={`text-center absolute bottom-20 right-[35px] bg-slate-50 text-gray-950 p-3 rounded-md`}
           >
             {dropdownOptions.map(({ name, value }, i) => {
               if (isSelected !== name) {
