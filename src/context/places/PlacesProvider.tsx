@@ -66,6 +66,7 @@ export const PlacesProvider = ({ children }: Props) => {
 
         // Checking for successful response status
         if (response.status === 200) {
+          
           dispatch({
             type: 'setPlaces',
             payload: response.data.features,

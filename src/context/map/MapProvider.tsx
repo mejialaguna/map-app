@@ -48,6 +48,12 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
         .addTo(state.map!);
 
       newMarkers.push(newMarker);
+
+      dispatch({
+        type: 'setMarkers',
+        payload: newMarkers,
+      })
+
     });
   }, [places, state]);
 
@@ -60,7 +66,7 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
           </div>
       `);
 
-    const marker = new Marker({ color: 'red', draggable: true })
+    const marker = new Marker({ color: 'red' })
       .setLngLat(latLong)
       .setPopup(popup)
       .addTo(map);
@@ -96,7 +102,6 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
         for (const coord of coordinates) {
           const newCoord: [number, number] = [coord[0], coord[1]];
           bounds.extend(newCoord);
-          // console.log({ newCoord });
         }
 
         state.map?.fitBounds(bounds, { padding: 250 });
