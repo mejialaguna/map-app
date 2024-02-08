@@ -53,9 +53,10 @@ export const MapProvider = ({ children }: MapProviderProps): JSX.Element => {
         type: 'setMarkers',
         payload: newMarkers,
       })
-
     });
-  }, [places, state]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [places]);
 
   const setMap = (map: Map) => {
     const latLong = map.getCenter();
